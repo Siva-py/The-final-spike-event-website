@@ -120,10 +120,11 @@
 
         <!-- Layer 2: Video Container -->
         <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden z-10">
-            <video id="mainVideo" class="absolute min-w-full min-h-full" autoplay muted loop playsinline>
-                <!-- Priority: Local File -->
+            <!-- Ensure playsinline, autoplay, muted, and loop are present for background videos -->
+            <video id="mainVideo" class="absolute min-w-full min-h-full" autoplay muted loop playsinline preload="auto">
+                <!-- RENAME YOUR FILE ON GITHUB TO: bg-video.mp4 -->
                 <source src="bg-video.mp4" type="video/mp4">
-                <!-- Backup: Public Link -->
+                <!-- Backup Link -->
                 <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-technology-background-with-lines-and-dots-44144-large.mp4" type="video/mp4">
             </video>
         </div>
@@ -141,7 +142,6 @@
                 THE FINAL<br><span class="text-red-500">SPIKE</span>
             </h1>
 
-            <!-- Tagline Integration (Hero) -->
             <p class="mono text-red-500 tracking-[0.3em] font-bold text-sm md:text-base uppercase animate-pulse">
                 Precision // Strategy // Domination
             </p>
@@ -184,8 +184,6 @@
         </div>
 
         <div class="grid md:grid-cols-2 gap-px bg-white/5 border border-white/5">
-            
-            <!-- Logistics -->
             <div class="rule-card p-10 bg-[#0F1923]">
                 <div class="flex gap-6">
                     <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">01</span>
@@ -201,7 +199,6 @@
                 </div>
             </div>
 
-            <!-- Roster -->
             <div class="rule-card p-10 bg-[#0F1923]">
                 <div class="flex gap-6">
                     <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">02</span>
@@ -217,7 +214,6 @@
                 </div>
             </div>
 
-            <!-- Technical -->
             <div class="rule-card p-10 bg-[#0F1923]">
                 <div class="flex gap-6">
                     <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">03</span>
@@ -233,7 +229,6 @@
                 </div>
             </div>
 
-            <!-- Structure -->
             <div class="rule-card p-10 bg-[#0F1923]">
                 <div class="flex gap-6">
                     <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">04</span>
@@ -249,7 +244,6 @@
                 </div>
             </div>
 
-            <!-- Ethics -->
             <div class="rule-card p-10 bg-[#0F1923]">
                 <div class="flex gap-6">
                     <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">05</span>
@@ -265,7 +259,6 @@
                 </div>
             </div>
 
-            <!-- MAP SECTION -->
             <div class="rule-card p-10 bg-[#1a1f25] border-l-4 !border-red-500 shadow-2xl md:col-span-1">
                 <div class="flex gap-6">
                     <span class="mono text-red-500 font-bold text-3xl italic">06</span>
@@ -295,22 +288,20 @@
                 </div>
             </div>
 
-            <!-- COORDINATORS SECTION -->
             <div class="rule-card p-10 bg-[#0F1923]">
                 <div class="flex gap-6">
                     <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">07</span>
                     <div>
                         <h3 class="text-2xl font-bold uppercase mb-6 glitch-text cursor-default">Tournament Command</h3>
                         <ul class="mono text-sm space-y-4 text-gray-400">
-                            <li>- <span class="text-white">SIVA D M:</span> <a href="tel:9092220192" class="hover:text-red-500 transition-colors border-b border-transparent hover:border-red-500">9092220192</a></li>
-                            <li>- <span class="text-white">BHAGAVADH B:</span> <a href="tel:7200861538" class="hover:text-red-500 transition-colors border-b border-transparent hover:border-red-500">7200861538</a></li>
+                            <li>- <span class="text-white">SIVA D M:</span> <a href="tel:9092220192" class="hover:text-red-500 transition-colors">9092220192</a></li>
+                            <li>- <span class="text-white">BHAGAVADH B:</span> <a href="tel:7200861538" class="hover:text-red-500 transition-colors">7200861538</a></li>
                             <li>- <span class="text-red-500 uppercase font-bold italic tracking-tighter">Support:</span> Active via Discord 24/7.</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- UPDATED: DOWNLOAD RULES SECTION -->
             <div class="rule-card p-10 bg-[#0F1923]">
                 <div class="flex gap-6 h-full items-start">
                     <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">08</span>
@@ -318,7 +309,7 @@
                         <div>
                             <h3 class="text-2xl font-bold uppercase mb-4 glitch-text cursor-default">Protocol Docs</h3>
                             <p class="mono text-sm text-gray-400 leading-relaxed mb-6">
-                                Download the complete mission parameters and engagement protocols. Review the full documentation to ensure total compliance.
+                                Download the complete mission parameters and engagement protocols.
                             </p>
                         </div>
                         <a href="rules.pdf" target="_blank" class="btn-val bg-white text-black px-6 py-4 font-bold uppercase italic text-sm tracking-widest hover:bg-red-500 hover:text-white transition-all text-center">
@@ -358,11 +349,21 @@
         window.addEventListener('load', () => {
             const video = document.getElementById('mainVideo');
             if (video) {
-                // Some browsers need a direct play() call
-                video.play().catch(e => console.log("Autoplay check:", e));
+                // Try to force play with user interaction check
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        console.log("Autoplay started");
+                    }).catch(error => {
+                        console.log("Autoplay failed, waiting for user click");
+                        // Fallback: Start video on first click if browser blocks it
+                        document.body.addEventListener('click', () => {
+                            video.play();
+                        }, { once: true });
+                    });
+                }
             }
         });
     </script>
 </body>
-
 </html>
