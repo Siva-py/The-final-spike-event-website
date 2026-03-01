@@ -38,7 +38,6 @@
 
         /* Glow Effects */
         .glow-red { text-shadow: 0 0 15px rgba(255, 70, 85, 0.8); }
-        .border-glow { box-shadow: 0 0 15px rgba(255, 70, 85, 0.3); }
 
         /* Button Clipping */
         .btn-val {
@@ -51,55 +50,38 @@
         }
 
         /* Video Background Styling */
-        .video-docker video {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-color: var(--val-black);
+        }
+
+        video#mainVideo {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
 
-        /* PERMANENT GLITCH EFFECT (Always Active) */
+        /* PERMANENT GLITCH EFFECT */
         .glitch-text {
             position: relative;
             animation: glitch-permanent 4s infinite;
         }
 
         @keyframes glitch-permanent {
-            0%, 15%, 45%, 60%, 85%, 100% { 
-                transform: translate(0); 
-                text-shadow: none; 
-            }
-            16% { 
-                transform: translate(3px, -1px); 
-                text-shadow: 2px 0 #ff0033, -2px 0 #00ffff;
-            }
-            18% { 
-                transform: translate(-3px, 1px); 
-                text-shadow: -2px 0 #ff0033, 2px 0 #00ffff;
-            }
-            46% { 
-                transform: translate(1px, 1px); 
-                text-shadow: 1px 0 #ff0033, -1px 0 #00ffff;
-            }
-            48% { 
-                transform: translate(-1px, -1px); 
-                text-shadow: -1px 0 #ff0033, 1px 0 #00ffff;
-            }
-            86% { 
-                transform: translate(4px); 
-                text-shadow: 3px 0 #ff0033;
-            }
-            88% { 
-                transform: translate(0); 
-                text-shadow: none;
-            }
+            0%, 15%, 45%, 60%, 85%, 100% { transform: translate(0); text-shadow: none; }
+            16% { transform: translate(3px, -1px); text-shadow: 2px 0 #ff0033, -2px 0 #00ffff; }
+            18% { transform: translate(-3px, 1px); text-shadow: -2px 0 #ff0033, 2px 0 #00ffff; }
+            46% { transform: translate(1px, 1px); text-shadow: 1px 0 #ff0033, -1px 0 #00ffff; }
+            48% { transform: translate(-1px, -1px); text-shadow: -1px 0 #ff0033, 1px 0 #00ffff; }
+            86% { transform: translate(4px); text-shadow: 3px 0 #ff0033; }
+            88% { transform: translate(0); text-shadow: none; }
         }
 
-        /* Rules Layout Styling */
         .rule-card {
             border-left: 3px solid transparent;
             transition: 0.3s;
@@ -115,25 +97,25 @@
     <!-- HERO SECTION -->
     <section class="relative h-screen flex flex-col items-center justify-center text-center p-6 border-b-4 border-red-500 overflow-hidden">
         
-        <!-- Layer 1: Image Fallback (Bottom) -->
-        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070" class="absolute inset-0 w-full h-full object-cover z-0" alt="Background Fallback">
-
-        <!-- Layer 2: Video Container -->
-        <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden z-10">
-            <!-- Ensure playsinline, autoplay, muted, and loop are present for background videos -->
-            <video id="mainVideo" class="absolute min-w-full min-h-full" autoplay muted loop playsinline preload="auto">
-                <!-- RENAME YOUR FILE ON GITHUB TO: bg-video.mp4 -->
+        <!-- Video Container with Poster Fallback -->
+        <div class="video-container">
+            <!-- POSTER is the best way to show a fallback image while loading -->
+            <video id="mainVideo" 
+                   autoplay 
+                   muted 
+                   loop 
+                   playsinline 
+                   preload="auto"
+                   poster="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070">
                 <source src="bg-video.mp4" type="video/mp4">
-                <!-- Backup Link -->
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-technology-background-with-lines-and-dots-44144-large.mp4" type="video/mp4">
             </video>
         </div>
 
-        <!-- Layer 3: Dark Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-t from-[#0F1923] via-[#0F1923]/75 to-[#0F1923]/40 z-20"></div>
+        <!-- Dark Overlay - Adjusted z-index to be above video but below content -->
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0F1923] via-[#0F1923]/75 to-[#0F1923]/40 z-10"></div>
         
-        <!-- Layer 4: Content (Top) -->
-        <div class="relative z-30 space-y-6 flex flex-col items-center">
+        <!-- Content Layer -->
+        <div class="relative z-20 space-y-6 flex flex-col items-center">
             <div class="inline-block border border-red-500 bg-black/60 px-6 py-2">
                 <p class="mono text-red-500 tracking-[0.5em] text-xs font-bold uppercase">Tesseract 2026 // Access Granted</p>
             </div>
@@ -168,9 +150,8 @@
         </div>
     </section>
 
-    <!-- MAIN CONTENT -->
+    <!-- MISSION BRIEFING SECTION -->
     <main id="rules" class="max-w-6xl mx-auto px-6 py-24 space-y-16">
-        
         <div class="border-b border-white/10 pb-6">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-4 gap-4">
                 <div>
@@ -179,137 +160,78 @@
                 </div>
             </div>
             <p class="mono text-gray-400 text-sm md:text-base leading-relaxed max-w-2xl border-l-2 border-red-500/50 pl-4 italic">
-                A <span class="text-white font-bold uppercase">Completely Online</span> tournament where only the sharpest aim and smartest tactics survive. Prepare for high-stakes competition.
+                A <span class="text-white font-bold uppercase">Completely Online</span> tournament where only the sharpest aim and smartest tactics survive.
             </p>
         </div>
 
         <div class="grid md:grid-cols-2 gap-px bg-white/5 border border-white/5">
+            <!-- Block 01 -->
             <div class="rule-card p-10 bg-[#0F1923]">
                 <div class="flex gap-6">
                     <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">01</span>
                     <div>
                         <h3 class="text-2xl font-bold uppercase mb-6 text-red-500">Logistics & Deployment</h3>
                         <ul class="mono text-sm space-y-4 text-gray-400">
-                            <li>- <span class="text-white">Fee:</span> ₹300 Per Team (Non-Refundable).</li>
-                            <li>- <span class="text-white">Management:</span> Decisions are final and binding.</li>
+                            <li>- <span class="text-white">Fee:</span> ₹300 Per Team.</li>
                             <li>- <span class="text-white">Format:</span> 100% Online Tournament.</li>
-                            <li>- <span class="text-white">Dates:</span> Mar 24 (Knockouts) | Mar 25 (Finale).</li>
+                            <li>- <span class="text-white">Dates:</span> Mar 24 - 25, 2026.</li>
                         </ul>
                     </div>
                 </div>
             </div>
-
+            <!-- Block 02 -->
             <div class="rule-card p-10 bg-[#0F1923]">
                 <div class="flex gap-6">
                     <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">02</span>
                     <div>
                         <h3 class="text-2xl font-bold uppercase mb-6">Personnel Protocol</h3>
                         <ul class="mono text-sm space-y-4 text-gray-400">
-                            <li>- <span class="text-white">Squad:</span> 5 Players + 1 Optional Sub.</li>
-                            <li>- <span class="text-white">Coaches:</span> Strictly NOT PERMITTED.</li>
-                            <li>- <span class="text-white">Unique Entry:</span> 1 Agent can join only ONE squad.</li>
-                            <li>- <span class="text-white">Reporting:</span> Notify sub-swap prior to match.</li>
+                            <li>- <span class="text-white">Squad:</span> 5 Players + 1 Sub.</li>
+                            <li>- <span class="text-white">Coaches:</span> Not Permitted.</li>
                         </ul>
                     </div>
                 </div>
             </div>
-
-            <div class="rule-card p-10 bg-[#0F1923]">
-                <div class="flex gap-6">
-                    <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">03</span>
-                    <div>
-                        <h3 class="text-2xl font-bold uppercase mb-6">Technical Specs</h3>
-                        <ul class="mono text-sm space-y-4 text-gray-400">
-                            <li>- <span class="text-white">Clearance:</span> Minimum Level 30 Required.</li>
-                            <li>- <span class="text-white">Account:</span> No unranked accounts permitted.</li>
-                            <li>- <span class="text-white">Stability:</span> Internet is the Agent's responsibility.</li>
-                            <li>- <span class="text-white">Enforcement:</span> Cheating results in instant purge (DQ).</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="rule-card p-10 bg-[#0F1923]">
-                <div class="flex gap-6">
-                    <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">04</span>
-                    <div>
-                        <h3 class="text-2xl font-bold uppercase mb-6">Combat Structure</h3>
-                        <ul class="mono text-sm space-y-4 text-gray-400">
-                            <li>- <span class="text-white">Knockouts:</span> Best of 1 (BO1).</li>
-                            <li>- <span class="text-white">Semis & Finals:</span> Best of 3 (BO3).</li>
-                            <li>- <span class="text-white">Map Draft:</span> Handled via the Veto System below.</li>
-                            <li>- <span class="text-white">Reporting:</span> Check-in 15 mins prior to drop.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="rule-card p-10 bg-[#0F1923]">
-                <div class="flex gap-6">
-                    <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">05</span>
-                    <div>
-                        <h3 class="text-2xl font-bold uppercase mb-6">Conduct of War</h3>
-                        <ul class="mono text-sm space-y-4 text-gray-400">
-                            <li>- <span class="text-white">Comms:</span> All-chat restricted to "GG" or "WP".</li>
-                            <li>- <span class="text-white">Discipline:</span> Zero tolerance for toxic behavior.</li>
-                            <li>- <span class="text-white">Channels:</span> Discord is the official Intel link.</li>
-                            <li>- <span class="text-white">Screening:</span> Grand Final live-screened on campus.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
+            <!-- Map Veto -->
             <div class="rule-card p-10 bg-[#1a1f25] border-l-4 !border-red-500 shadow-2xl md:col-span-1">
                 <div class="flex gap-6">
                     <span class="mono text-red-500 font-bold text-3xl italic">06</span>
                     <div class="flex-grow">
-                        <h3 class="text-2xl font-bold uppercase mb-4 text-red-500 italic font-bold tracking-widest underline decoration-2 underline-offset-8 glitch-text cursor-default">Tactical Map Veto</h3>
-                        <p class="mono text-sm text-gray-300 leading-relaxed mb-6">
-                            Competitive integrity is our priority. Every match draft is handled through our <span class="text-white font-bold">Unbiased Veto Portal</span>.
-                        </p>
-                        
+                        <h3 class="text-2xl font-bold uppercase mb-4 text-red-500 italic font-bold tracking-widest underline decoration-2 underline-offset-8 glitch-text">Tactical Map Veto</h3>
                         <a href="https://thefinalspike.streamlit.app/" target="_blank" class="btn-val bg-white text-black px-6 py-3 font-bold uppercase italic text-sm tracking-wider hover:bg-red-500 hover:text-white transition-colors w-full text-center block mb-6">
                             Initialize Veto Portal
                         </a>
-
-                        <div class="mt-4 pt-4 border-t border-white/5">
-                            <p class="mono text-[10px] text-gray-500 uppercase mb-2">Active Map Pool</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-black/40 px-3 py-1 text-[10px] mono border border-white/10 italic">Ascent</span>
-                                <span class="bg-black/40 px-3 py-1 text-[10px] mono border border-white/10 italic">Bind</span>
-                                <span class="bg-black/40 px-3 py-1 text-[10px] mono border border-white/10 italic">Haven</span>
-                                <span class="bg-black/40 px-3 py-1 text-[10px] mono border border-white/10 italic">Sunset</span>
-                                <span class="bg-black/40 px-3 py-1 text-[10px] mono border border-white/10 italic">Lotus</span>
-                                <span class="bg-black/40 px-3 py-1 text-[10px] mono border border-white/10 italic">Split</span>
-                                <span class="bg-black/40 px-3 py-1 text-[10px] mono border border-white/10 italic">Breeze</span>
-                            </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-black/40 px-3 py-1 text-[10px] mono border border-white/10 italic">Ascent</span>
+                            <span class="bg-black/40 px-3 py-1 text-[10px] mono border border-white/10 italic">Bind</span>
+                            <span class="bg-black/40 px-3 py-1 text-[10px] mono border border-white/10 italic">Haven</span>
+                            <span class="bg-black/40 px-3 py-1 text-[10px] mono border border-white/10 italic">Breeze</span>
                         </div>
                     </div>
                 </div>
             </div>
-
+            <!-- Support -->
             <div class="rule-card p-10 bg-[#0F1923]">
                 <div class="flex gap-6">
                     <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">07</span>
                     <div>
-                        <h3 class="text-2xl font-bold uppercase mb-6 glitch-text cursor-default">Tournament Command</h3>
+                        <h3 class="text-2xl font-bold uppercase mb-6 glitch-text">Tournament Command</h3>
                         <ul class="mono text-sm space-y-4 text-gray-400">
-                            <li>- <span class="text-white">SIVA D M:</span> <a href="tel:9092220192" class="hover:text-red-500 transition-colors">9092220192</a></li>
-                            <li>- <span class="text-white">BHAGAVADH B:</span> <a href="tel:7200861538" class="hover:text-red-500 transition-colors">7200861538</a></li>
-                            <li>- <span class="text-red-500 uppercase font-bold italic tracking-tighter">Support:</span> Active via Discord 24/7.</li>
+                            <li>- <span class="text-white">SIVA D M:</span> <a href="tel:9092220192" class="hover:text-red-500">9092220192</a></li>
+                            <li>- <span class="text-white">BHAGAVADH B:</span> <a href="tel:7200861538" class="hover:text-red-500">7200861538</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-
+            <!-- Protocol Docs -->
             <div class="rule-card p-10 bg-[#0F1923]">
                 <div class="flex gap-6 h-full items-start">
                     <span class="mono text-red-500 font-bold text-3xl opacity-30 italic">08</span>
                     <div class="flex-grow flex flex-col h-full justify-between">
                         <div>
-                            <h3 class="text-2xl font-bold uppercase mb-4 glitch-text cursor-default">Protocol Docs</h3>
+                            <h3 class="text-2xl font-bold uppercase mb-4 glitch-text">Protocol Docs</h3>
                             <p class="mono text-sm text-gray-400 leading-relaxed mb-6">
-                                Download the complete mission parameters and engagement protocols.
+                                Download the complete mission parameters.
                             </p>
                         </div>
                         <a href="rules.pdf" target="_blank" class="btn-val bg-white text-black px-6 py-4 font-bold uppercase italic text-sm tracking-widest hover:bg-red-500 hover:text-white transition-all text-center">
@@ -320,50 +242,42 @@
             </div>
         </div>
 
-        <!-- CTAs -->
-        <div class="bg-red-600 p-16 text-center transform skew-x-[-2deg] border-glow shadow-2xl">
+        <!-- CTA -->
+        <div class="bg-red-600 p-16 text-center transform skew-x-[-2deg] shadow-2xl">
             <div class="transform skew-x-[2deg] space-y-8">
-                <h2 class="text-7xl font-extrabold uppercase italic tracking-tighter shadow-sm glitch-text cursor-default">Are You Ready?</h2>
-                <p class="mono text-black font-bold uppercase tracking-[0.4em] text-xl">Operational Bounty: 10X Pool</p>
+                <h2 class="text-7xl font-extrabold uppercase italic tracking-tighter glitch-text">Are You Ready?</h2>
                 <div class="flex flex-wrap justify-center gap-6">
                     <a href="https://forms.gle/gJnjjjpjyU6DguZj6" target="_blank" class="bg-black text-white px-12 py-6 font-bold uppercase italic text-xl hover:bg-white hover:text-black transition tracking-widest">Register Now</a>
-                    <a href="https://discord.gg/QEJPsqenYC" target="_blank" class="bg-white text-black px-12 py-6 font-bold uppercase italic text-xl hover:bg-black hover:text-white transition tracking-widest">Join Command</a>
                 </div>
             </div>
         </div>
-
     </main>
 
     <footer class="py-24 border-t border-white/5 text-center">
         <div class="max-w-4xl mx-auto px-6 opacity-30">
             <h3 class="text-2xl font-bold uppercase mb-4 italic">The Final Spike // Tesseract 2026</h3>
             <p class="mono text-[10px] uppercase tracking-[0.5em] leading-loose">
-                Organized by VIT Chennai, School of Advanced Sciences<br>
-                Classified Data Stream // Property of Tesseract // 2026
+                Organized by VIT Chennai, School of Advanced Sciences
             </p>
         </div>
     </footer>
 
-    <!-- Force Play Script -->
     <script>
-        window.addEventListener('load', () => {
-            const video = document.getElementById('mainVideo');
-            if (video) {
-                // Try to force play with user interaction check
-                const playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(_ => {
-                        console.log("Autoplay started");
-                    }).catch(error => {
-                        console.log("Autoplay failed, waiting for user click");
-                        // Fallback: Start video on first click if browser blocks it
-                        document.body.addEventListener('click', () => {
-                            video.play();
-                        }, { once: true });
-                    });
-                }
-            }
-        });
+        // Stronger Force-Play Script
+        const video = document.getElementById('mainVideo');
+        
+        function attemptPlay() {
+            video.play().catch(() => {
+                // If blocked, wait for first click anywhere
+                document.body.addEventListener('click', () => {
+                    video.play();
+                }, { once: true });
+            });
+        }
+
+        window.addEventListener('load', attemptPlay);
+        // Also try playing if user scrolls
+        window.addEventListener('scroll', attemptPlay, { once: true });
     </script>
 </body>
 </html>
