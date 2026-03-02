@@ -116,14 +116,14 @@
     <section class="relative h-screen flex flex-col items-center justify-center text-center p-6 border-b-4 border-red-500 overflow-hidden">
         
         <!-- Layer 1: Image Fallback (Bottom) -->
-        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070" class="absolute inset-0 w-full h-full object-cover z-0" alt="Background Fallback">
+        <img src="betaartbg.jpg" class="absolute inset-0 w-full h-full object-cover z-0" alt="Background Fallback">
 
         <!-- Layer 2: Video Container -->
         <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden z-10">
             <!-- Ensure playsinline, autoplay, muted, and loop are present for background videos -->
             <video id="mainVideo" class="absolute min-w-full min-h-full" autoplay muted loop playsinline preload="auto">
                 <!-- RENAME YOUR FILE ON GITHUB TO: bg-video.mp4 -->
-                <source src="bg-video.mp4" type="video/mp4">
+                <source src="bgvideo.mp4" type="video/mp4">
                 <!-- Backup Link -->
                 <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-technology-background-with-lines-and-dots-44144-large.mp4" type="video/mp4">
             </video>
@@ -367,5 +367,6 @@
     </script>
 </body>
 </html>
+
 
 
