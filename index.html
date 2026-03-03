@@ -120,13 +120,16 @@
 
         <!-- Layer 2: Video Container -->
         <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden z-10">
-            <!-- Ensure playsinline, autoplay, muted, and loop are present for background videos -->
-            <video id="mainVideo" class="absolute min-w-full min-h-full" autoplay muted loop playsinline preload="auto">
-                <!-- RENAME YOUR FILE ON GITHUB TO: bg-video.mp4 -->
-                <source src="bgvideo.mp4" type="video/mp4">
-                <!-- Backup Link -->
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-technology-background-with-lines-and-dots-44144-large.mp4" type="video/mp4">
-            </video>
+          <video
+            class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover"
+            autoplay
+            muted
+            loop
+            playsinline>
+
+            <source src="https://res.cloudinary.com/djkxdr7ck/video/upload/v1772511390/the_final_website_bg_video_omailg.mp4" type="video/mp4">
+
+          </video>
         </div>
 
         <!-- Layer 3: Dark Overlay -->
@@ -367,6 +370,7 @@
     </script>
 </body>
 </html>
+
 
 
 
